@@ -9,3 +9,12 @@ export const isMarker = (str: string): boolean => {
 
   return true;
 };
+
+export const findMarker = (input: string, targetLength: number): number => {
+  for (let i = targetLength; i++; i < input.length + 1) {
+    if (isMarker(input.substring(i - targetLength, i))) {
+      return i;
+    }
+  }
+  return -1;
+};
