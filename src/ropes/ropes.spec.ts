@@ -1,4 +1,5 @@
-import { getNextPositions } from "./solution";
+import { countDistinctTailPositions, getNextPositions } from "./solution";
+import { input, sample } from "./input";
 
 describe("ropes bridge", () => {
   describe("calculating next position", () => {
@@ -26,6 +27,20 @@ describe("ropes bridge", () => {
 
       expect(newPos.head).toEqual([6, 2]);
       expect(newPos.tail).toEqual([7, 2]);
+    });
+  });
+
+  describe("counting distinct positions", () => {
+    it("should count distinct locations where the tail visits - sample", () => {
+      const result = countDistinctTailPositions(sample);
+
+      expect(result).toEqual(13);
+    });
+
+    it("should count distinct locations where the tail visits - input", () => {
+      const result = countDistinctTailPositions(input);
+
+      expect(result).toEqual(6311);
     });
   });
 });

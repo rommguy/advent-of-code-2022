@@ -45,3 +45,52 @@ export const getNextPositions = (
     head: newHeadPos,
   };
 };
+
+type Action = [Direction, number];
+export const countDistinctTailPositions = (input: string): number => {
+  const lines = input.split("\n");
+  const initialActions: Action[] = lines.map((line) => {
+    const [direction, amount] = line.split(" ");
+    return [direction, parseInt(amount!, 10)] as [Direction, number];
+  });
+
+  const actions: Action[] = initialActions
+    .map((action) => {
+      const [direction, stepsAmount] = action;
+      if (stepsAmount <= 1) {
+        return [action];
+      }
+      return new Array(stepsAmount).fill([direction, 1]);
+    })
+    .flat();
+
+  const initialHeadPosition: Pos = [100, 100];
+  const initialTailPosition: Pos = [100, 100];
+
+  const result = actions.reduce(
+    (accm, action) => {
+      const actionResult = getNextPositions(
+        accm.tailPos,
+        accm.headPos,
+        action[0],
+        action[1]
+      );
+      accm.distinctPositions.add(
+        `${actionResult.tail[0]}-${actionResult.tail[1]}`
+      );
+
+      return {
+        ...accm,
+        tailPos: actionResult.tail,
+        headPos: actionResult.head,
+      };
+    },
+    {
+      distinctPositions: new Set(),
+      tailPos: initialTailPosition,
+      headPos: initialHeadPosition,
+    }
+  );
+
+  return result.distinctPositions.size;
+};
