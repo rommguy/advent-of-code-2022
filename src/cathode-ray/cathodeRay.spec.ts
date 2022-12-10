@@ -1,7 +1,11 @@
-import { calcProcessorState, calcSignalStrength } from "./solution";
+import {
+  calcProcessorState,
+  calcSignalStrength,
+  drawCRTSolution,
+} from "./solution";
 import { sample, input } from "./input";
 describe("Cathode ray problem", () => {
-  describe("processor state calculater", () => {
+  describe("processor state calculator", () => {
     it("should calc processor state", () => {
       const sampleInput = `addx 10
             addx 5
@@ -26,6 +30,22 @@ describe("Cathode ray problem", () => {
       const result = calcSignalStrength(input);
 
       expect(result).toEqual(12740);
+    });
+  });
+
+  describe("CRT image", () => {
+    it("should return expected image - sample", () => {
+      const result = drawCRTSolution(sample);
+
+      console.log(result);
+      expect(result.length).toEqual(247);
+    });
+
+    it("should return expected image - input", () => {
+      const result = drawCRTSolution(input);
+
+      console.log(result);
+      expect(result.length).toEqual(247);
     });
   });
 });

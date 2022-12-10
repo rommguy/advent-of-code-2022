@@ -1,4 +1,4 @@
-import { last, words, sum, isNumber, trim } from "lodash/fp";
+import { last, sum, isNumber, trim } from "lodash/fp";
 export const calcProcessorState = (input: string): number[] => {
   const instructions = input.split("\n");
   const initialVal = 1;
@@ -29,9 +29,29 @@ const calcSignalStrengthFromStates = (states: number[]) => {
   return sum(cycles.map((cycle) => cycle * (states[cycle - 1] as number)));
 };
 
+const getCRTImage = (states: number[]) => {
+  const imageArr = states.map((registerVal, index) => {
+    const CRTPosition = index % 40;
+    const prefix = CRTPosition === 0 && index !== 0 ? "\n" : "";
+    if (CRTPosition >= registerVal - 1 && CRTPosition <= registerVal + 1) {
+      return `${prefix}#`;
+    }
+
+    return `${prefix}.`;
+  });
+  const imageStr = imageArr.join("");
+  return imageStr;
+};
+
 export const calcSignalStrength = (input: string): number => {
   const states = calcProcessorState(input);
   const signalStrength = calcSignalStrengthFromStates(states);
 
   return signalStrength;
+};
+
+export const drawCRTSolution = (input: string): string => {
+  const states = calcProcessorState(input);
+
+  return getCRTImage(states);
 };
