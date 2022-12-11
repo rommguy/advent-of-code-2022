@@ -34,7 +34,11 @@ export const applyRound = (monkeys: Monkey[]) => {
       }
 
       if (monkeyIndex === currentMonkeyIndex) {
-        return { ...monkey, startingItems: [] };
+        return {
+          ...monkey,
+          startingItems: [],
+          inspections: monkey.inspections + currentMonkey.startingItems.length,
+        };
       }
 
       return {
@@ -46,4 +50,22 @@ export const applyRound = (monkeys: Monkey[]) => {
       };
     });
   }, monkeys);
+};
+
+export const applyRounds = (
+  initialState: Monkey[],
+  roundCount: number
+): Monkey[] => {
+  return new Array(roundCount)
+    .fill("")
+    .reduce((result) => applyRound(result), initialState);
+};
+
+export const findMonkeyBusiness = (initialState: Monkey[]) => {
+  const finalState = applyRounds(initialState, 20);
+  const sorted = map("inspections", finalState).sort(
+    (a, b) => b - a
+  ) as number[];
+
+  return sorted[0]! * sorted[1]!;
 };
