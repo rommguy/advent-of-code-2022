@@ -29,10 +29,10 @@ describe("Monkey in the middle", () => {
     it("should calc the multiply of the 2 most busy monkeys - sample", () => {
       const result = findMonkeyBusiness(sample);
 
-      expect(result).toEqual(10605);
+      expect(result).toEqual(2713310158);
     });
 
-    it("should calc the multiply of the 2 most busy monkeys - sample", () => {
+    it("should calc the multiply of the 2 most busy monkeys - input", () => {
       const result = findMonkeyBusiness(input);
 
       expect(result).toEqual(30408);

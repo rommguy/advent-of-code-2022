@@ -5,17 +5,28 @@ interface InspectionResult {
   targetIndex: number;
   worryLevel: number;
 }
+
+const MODULU_MULTIPLIER = 9699690;
+// 96577
+// 9699690
+
 export const applyRound = (monkeys: Monkey[]) => {
   return monkeys.reduce((result, _, currentMonkeyIndex) => {
     const currentMonkey = result[currentMonkeyIndex] as Monkey;
+    if (currentMonkey.startingItems.length === 0) {
+      return result;
+    }
     const inspectionResults = currentMonkey.startingItems.map(
       (worryLevel): InspectionResult => {
-        const updatedWorryLevel = Math.floor(
-          currentMonkey.operation(worryLevel) / 3
-        );
+        // const updatedWorryLevel = Math.floor(
+        //   currentMonkey.operation(worryLevel) / 3
+        // );
+        const updatedWorryLevel = currentMonkey.operation(worryLevel);
+        const distanceFromModulu = updatedWorryLevel % MODULU_MULTIPLIER;
+
         return {
-          targetIndex: currentMonkey.test(updatedWorryLevel),
-          worryLevel: updatedWorryLevel,
+          targetIndex: currentMonkey.test(distanceFromModulu),
+          worryLevel: distanceFromModulu,
         };
       }
     );
@@ -37,7 +48,7 @@ export const applyRound = (monkeys: Monkey[]) => {
         return {
           ...monkey,
           startingItems: [],
-          inspections: monkey.inspections + currentMonkey.startingItems.length,
+          inspections: monkey.inspections + monkey.startingItems.length,
         };
       }
 
@@ -62,7 +73,7 @@ export const applyRounds = (
 };
 
 export const findMonkeyBusiness = (initialState: Monkey[]) => {
-  const finalState = applyRounds(initialState, 20);
+  const finalState = applyRounds(initialState, 10000);
   const sorted = map("inspections", finalState).sort(
     (a, b) => b - a
   ) as number[];
