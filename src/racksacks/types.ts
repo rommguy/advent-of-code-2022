@@ -1,29 +1,4 @@
-type UpperCaseCharacter =
-  | "A"
-  | "B"
-  | "C"
-  | "D"
-  | "E"
-  | "F"
-  | "G"
-  | "H"
-  | "I"
-  | "J"
-  | "K"
-  | "L"
-  | "M"
-  | "N"
-  | "O"
-  | "P"
-  | "Q"
-  | "R"
-  | "S"
-  | "T"
-  | "U"
-  | "V"
-  | "W"
-  | "X"
-  | "Y"
-  | "Z";
 // add additional non-letter characters to this union as desired
+import { UpperCaseCharacter } from "../types";
+
 export type Character = UpperCaseCharacter | Lowercase<UpperCaseCharacter>;
